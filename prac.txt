@@ -1,0 +1,94 @@
+# Hamiltonian 
+
+def hamil(graph):
+    V = len(graph)
+    path = [-1] * V
+
+    path[0]=0
+
+    if not hamil_util(garph, path, 1):
+        print('no sol')
+        return False
+
+    print(path)
+    return True
+
+
+def hamil_util(graph, path, pos):
+    if pos == len(graph):
+        if graph[paht[pos-1]][0] == 0:
+            return True
+        return False
+
+    for v in range(1, len(graph)):
+        if is_safe(graph, path, v, pos):
+            path[pos] = v
+            if hamil_util(graph, path, pos+1):
+                return True
+            path[pos] = -1
+    return False
+
+def is_safe(graph, path, v, pos):
+    if v in path:
+        return False
+    
+    if graph[path[pos-1]][v] == 0:
+        return False
+
+    return True
+
+
+
+
+
+def gc(graph, n_colors):
+    n = len(graph)
+    colors = [0] * n 
+
+    if not gcu(graph, colors, n_colors, 0):
+        print(no sol)
+        return False
+    print(colors)
+    return True
+
+def gcu(graph, colors, n_colors, v):
+    if v == len(graph):
+        return True
+
+    for color in range(1, n_colors+1):
+        if is_safe(graph, n_colors, colors, v):
+            colors[v) = color
+
+            if gcu(graph, colors, n_colors, v+1):
+                return True
+            
+            colors[v] = 0
+
+    return False
+
+def is_safe(graph, n_colors, colors, v):
+    for i in range(len(graph)):
+        if graph[v][i] == 1 and colors[i]==color:
+            reutrn False
+    return True
+
+
+
+def djk(graph, start):
+    V = len(graph)
+    dist = [float(inf)] * V
+    dist[start] = 0
+    pq = [(0,start)]
+
+    while pq:
+        d, u = heapq.heapop()
+        if d > dist[u]:
+            continue
+        for v, w in graph[u]:
+            if dist[u]+w < dist[v]:
+                dist[v] = dist[u]+w
+                heapq.heappush(pq, dist[v], v)
+
+    return dist
+
+
