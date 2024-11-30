@@ -92,3 +92,60 @@ def djk(graph, start):
     return dist
 
 
+
+
+
+class Graph:
+    def __init__(self, vertices):
+        self.graph=deafulatdict(list)
+        sel.fv =  V
+    
+    def added(self, u,v):
+        self.graph[u].append(v)
+
+    def tras(self):
+        g = graph(slef.v)
+        for i in self.g:
+            for j in self.graph[i]:
+                g.added(j,i)
+
+        return garph
+
+    def dfs_util(v, visited, scccomp):
+        visited[v] = True
+        scccomp.appned(v)
+        for i in selv.grah[v]:
+            if not visited[i]:
+                self.dfs_util(i, visited, scc_component)
+    
+    def fillorder(v, visiteed, stakc):
+        visited[v]= True
+        for i in self.graph[v]:
+            if not visited[i]:
+                self.fillorder(i, visited, stakc)
+
+
+        stakc.appned(v)
+
+    def scc(slef):
+    stakc = []
+    visisted = [False] * self.V
+
+    for i in range(self.v):
+        if not vsiisted[i]:
+            self.fillorder(i, visited, stack)
+
+    gt =  self.gett()
+
+    vsiisted = [False ]  * self.V
+    scc = []
+
+    while stack:
+        i = stakc.pop()
+        if not visited[i]:
+            scc_component = []
+            slef.dfs_util(i, visisted, scc_component)
+            scc.appned(scccompn)
+    returh scc
+
+

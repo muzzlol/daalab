@@ -10,7 +10,6 @@ def lcs(X, Y):
                 dp[i][j] = dp[i - 1][j - 1] + 1
             else:
                 dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
-
     # Reconstruct LCS
     lcs_str = []
     while m > 0 and n > 0:

@@ -62,65 +62,68 @@ bcc = g.bcc()
 print("Bi-Connected Components:")
 for component in bcc:
     print(component)
+from collections import defaultdict
 
 class Graph:
     def __init__(self, vertices):
         self.V = vertices
         self.graph = defaultdict(list)
-        self.time = 0
-
+    
     def add_edge(self, u, v):
         self.graph[u].append(v)
-
-    def scc_util(self, u, low, disc, stack_member, stack, scc):
-        disc[u] = self.time
-        low[u] = self.time
-        self.time += 1
-        stack_member[u] = True
-        stack.append(u)
-
-        for v in self.graph[u]:
-            if disc[v] == -1:
-                self.scc_util(v, low, disc, stack_member, stack, scc)
-                low[u] = min(low[u], low[v])
-            elif stack_member[v]:
-                low[u] = min(low[u], disc[v])
-
-        w = -1
-        if low[u] == disc[u]:
-            scc.append([])
-            while w != u:
-                w = stack.pop()
-                scc[-1].append(w)
-                stack_member[w] = False
-
-    def scc(self):
-        disc = [-1] * self.V
-        low = [-1] * self.V
-        stack_member = [False] * self.V
+    
+    def dfs_fill_order(self, v, visited, stack):
+        visited[v] = True
+        for neighbor in self.graph[v]:
+            if not visited[neighbor]:
+                self.dfs_fill_order(neighbor, visited, stack)
+        stack.append(v)
+    
+    def get_transpose(self):
+        g = Graph(self.V)
+        for u in self.graph:
+            for v in self.graph[u]:
+                g.add_edge(v, u)
+        return g
+    
+    def dfs_util(self, v, visited, component):
+        visited[v] = True
+        component.append(v)
+        for neighbor in self.graph[v]:
+            if not visited[neighbor]:
+                self.dfs_util(neighbor, component)
+    
+    def print_sccs(self):
         stack = []
-        scc = []
-
+        visited = [False] * self.V
+        
+        # Fill vertices in stack according to their finishing times
         for i in range(self.V):
-            if disc[i] == -1:
-                self.scc_util(i, low, disc, stack_member, stack, scc)
+            if not visited[i]:
+                self.dfs_fill_order(i, visited, stack)
+        
+        # Create a reversed graph
+        gr = self.get_transpose()
+        
+        # Mark all vertices as not visited for second DFS
+        visited = [False] * self.V
+        
+        # Process all vertices in order defined by the stack
+        while stack:
+            v = stack.pop()
+            if not visited[v]:
+                component = []
+                gr.dfs_util(v, visited, component)
+                print(component)
 
-        return scc
-
-
-# Create a directed graph with 5 vertices
+# Test the implementation
 g = Graph(5)
-
-# Add directed edges
 g.add_edge(1, 0)
 g.add_edge(0, 2)
 g.add_edge(2, 1)
 g.add_edge(0, 3)
 g.add_edge(3, 4)
 
-# Find and print strongly connected components
-scc = g.scc()
 print("Strongly Connected Components:")
-for component in scc:
-    print(component)
+g.print_sccs()
 

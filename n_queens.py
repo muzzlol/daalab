@@ -52,7 +52,8 @@ print(end - start)
 
 
 def solve_nq(n):
-    board = [['.'] * n  for _ in range(n)]
+    board = [['.'] * 4  for _ in range(n)]
+    print(board)
     cols = set()
     pdiag = set()
     ndiag = set()
